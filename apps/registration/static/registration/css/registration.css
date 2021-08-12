@@ -1,0 +1,69 @@
+body{
+  background-image: url("../images/sns.jpg");
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+} 
+
+h1 {
+  padding: 0.25em 0.5em;
+  padding-top: 30px;
+  color: white;
+  background: transparent;
+  border-left: solid 5px;
+}
+
+.square1 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  width: 450px;
+  height: 650px;
+  background:rgba(0, 0, 0, 0.7);
+} 
+
+.square2 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  width: 900px;
+  height: 650px;
+  background:rgba(0, 0, 0, 0.7);
+} 
+
+.form{
+  color: white;
+  padding-top: 80px;
+  padding-left: 80px;
+}
+
+input{
+  width: 260px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.button{
+  margin-top: 100px;
+  text-align: center;
+}
+
+.login_button{
+  font-size: 12pt;
+  cursor: pointer;
+  padding: 10px 50px; 
+  background: red;
+  color: white;
+  border: 2px solid red;
+}
+
+a {
+  text-decoration:none;
+  color: white;
+}
+
+p.signup{
+  text-align: center;
+}
