@@ -120,12 +120,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-LOGIN_URL = "/login/"
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/login/"
+LOGIN_URL = "apps.registration:login"
+LOGIN_REDIRECT_URL = "apps.registration:index"
+LOGOUT_REDIRECT_URL = "apps.registration:login"
 
 AUTH_USER_MODEL = 'registration.User'
-
-FRONTEND_URL = "http://127.0.0.1:8000"
