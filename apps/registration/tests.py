@@ -123,4 +123,4 @@ class LogoutTests(TestCase):
     def test_logout(self):
         response = self.client.get(self.url)
         self.assertRedirects(response, reverse('apps.registration:login'))
-        
+
