@@ -1,0 +1,8 @@
+{% extends 'registration/base.html' %}
+{% block main %}
+<div class=square1>
+    <h1>ログイン</h1>
+    {% include 'registration/form.html' with submit_label="ログイン" %}
+    <p class="signup"><a class="signup_button" href="{% url 'apps.registration:signup' %}">新規登録はこちら</a></p>
+</div>
+{% endblock %}
