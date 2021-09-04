@@ -1,0 +1,9 @@
+{% extends 'tweet/base.html' %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p class="delete">本当に削除してもよろしいですか?</p>
+    <input class="delete-button" type="submit" value="削除する">
+</form>
+{% endblock content %}
