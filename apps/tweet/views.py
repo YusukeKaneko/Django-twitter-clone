@@ -9,11 +9,8 @@ from .forms import PostCreateForm
 class Home(LoginRequiredMixin, ListView):
    model = Post
    template_name = 'tweet/tweet_list.html'
-
-   def get_queryset(self):
-       return Post.objects.exclude(user=self.request.user)
       
-   
+
 class MyTweet(LoginRequiredMixin, ListView):
    model = Post
    template_name = 'tweet/tweet_list.html'
