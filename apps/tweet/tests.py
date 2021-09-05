@@ -46,7 +46,7 @@ class TweetListTests(TestCase):
         self.assertTemplateUsed(response1, 'tweet/tweet_list.html')
         self.assertQuerysetEqual(
             response1.context['post_list'],
-            ['<Post: test2>'], 
+            ['<Post: test1>','<Post: test2>'], 
             ordered = True
         )
         self.assertContains(response1, self.user2.username)
@@ -69,7 +69,7 @@ class TweetListTests(TestCase):
         self.assertTemplateUsed(response1, 'tweet/tweet_list.html')
         self.assertQuerysetEqual(
             response1.context['post_list'],
-            ['<Post: test1>'], 
+            ['<Post: test1>','<Post: test2>'], 
             ordered = True
         )
         self.assertContains(response1, self.user1.username)
