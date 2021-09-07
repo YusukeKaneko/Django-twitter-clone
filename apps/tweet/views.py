@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, DetailView, DeleteView
+from django.shortcuts import get_object_or_404 
 from django.urls import reverse_lazy
 
 from .models import Post
@@ -41,6 +42,6 @@ class DeleteTweet(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
    def test_func(self, **kwargs):
        pk = self.kwargs["pk"]
-       post = Post.objects.get(pk=pk)
+       post = get_object_or_404(Post, pk=pk)
        return (post.user == self.request.user) 
        
