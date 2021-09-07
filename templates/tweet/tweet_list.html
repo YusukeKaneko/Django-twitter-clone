@@ -1,0 +1,14 @@
+{% extends 'tweet/base.html' %}
+{% load static %}
+
+{% block content %}
+    {% for item in post_list %}
+    <article class="tweet-list" id="js-tweet-list">
+        <div class="tweet-list-content">
+            <p>タイトル：{{item.title}}</p>          
+            <p>投稿者：{{item.user.username}}</p>
+            <p><a href="{% url 'apps.tweet:tweet_detail' item.pk %}">詳細</a></p>
+        </div>
+    </article>
+    {% endfor %}
+{% endblock content %}

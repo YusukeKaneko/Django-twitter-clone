@@ -1,0 +1,255 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: #333;
+  background-color: black;
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+
+.header{
+  text-align: center;
+  padding-top: 10px;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+}
+
+.header-ttl{
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.header-sub-ttl{
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  line-height: 2.5em;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+.wrapper{
+  display: flex;
+  justify-content: space-between; 
+  width: 1200px;
+  height: 1200px;
+  margin: 0 auto;
+}
+
+.nav{
+  width: 25%;
+  border-right: 1px solid white;
+}
+
+.main{
+  width: 65%;
+  padding: 60px; 
+}
+
+.nav-bar{
+  position: sticky;
+  top: 150px;
+}
+
+.nav-bar-item {
+  display: inline-block;
+  text-align: center;
+  width: 180px;
+  height: 60px;
+  border-radius: 30px;      
+  font-size: 18pt;     
+  cursor: pointer;    
+  background: black;    
+  color: #ffffff;     
+  line-height: 1em;        
+  transition: .3s;        
+  border: 2px solid black;
+}
+
+.nav-bar-item:not(:last-child) {
+  margin-top: 20px;
+}
+
+.nav-bar-item:hover {
+  opacity: 0.7;
+  background-color: gray;
+}
+
+.tweet-button{
+  display: inline-block;
+  text-align: center;
+  margin-top: 300px;
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;      
+  font-size: 12pt; 
+  font-weight: bold;    
+  cursor: pointer;    
+  background-color: rgb(41, 171, 231);    
+  color: #ffffff;     
+  line-height: 1em;        
+  transition: .3s;        
+  border: 2px solid rgb(41, 171, 231);
+}
+
+.tweet-button:hover{
+  opacity: 0.8;
+} 
+
+.tweet-button2{
+  display: inline-block;
+  text-align: center;
+  margin-top: 80px;
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;      
+  font-size: 12pt; 
+  font-weight: bold;    
+  cursor: pointer;    
+  background-color: rgb(41, 171, 231);    
+  color: #ffffff;     
+  line-height: 1em;        
+  transition: .3s;        
+  border: 2px solid rgb(41, 171, 231);
+}
+
+.tweet-button2:hover{
+  opacity: 0.8;
+} 
+
+.tweet-list{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #37beb0;
+  padding-bottom: 15px;
+}
+
+.tweet-list:not(:last-child) {
+  margin-bottom: 25px;
+} 
+
+.tweet-content{
+  color: white;
+}
+
+.tweet-popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: .6s;
+}
+
+.tweet-popup.is-show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 80%;
+  max-width: 600px;
+  padding: 50px;
+  text-align: center;
+  color: white;
+  background-color: black;
+  z-index: 2;
+  border-radius: 18px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px; 
+  right: 20px;
+  font-size: 40px;
+  cursor: pointer;
+  color: white;
+}
+
+.background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color:#37beb06c;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.delete-link{
+  color:red;
+}
+
+.delete{
+  color: white;
+}
+
+
+@media screen and (max-width: 1500px) {
+
+  .wrapper{
+    display: flex;
+    justify-content: space-between; 
+    width: 100%;
+    height: 1200px;
+    margin: 0 auto;
+  }
+
+  .nav-bar-item {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    height: 60px;
+    border-radius: 30px;      
+    font-size: 18pt;     
+    cursor: pointer;    
+    background: black;    
+    color: #ffffff;     
+    line-height: 1em;        
+    transition: .3s;        
+    border: 2px solid black;
+  }
+
+  .nav-bar-item:not(:last-child) {
+    margin-top: 20px;
+  }
+
+  .nav-bar-item:hover {
+    opacity: 0.7;
+    background-color: gray;
+  }
+
+  .tweet-button{
+    display: inline-block;
+    text-align: center;
+    margin-top: 300px;
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;      
+    font-size: 12pt; 
+    font-weight: bold;    
+    cursor: pointer;    
+    background-color: rgb(41, 171, 231);    
+    color: #ffffff;     
+    line-height: 1em;        
+    transition: .3s;        
+    border: 2px solid rgb(41, 171, 231);
+  }
+
+  .tweet-button:hover{
+    opacity: 0.8;
+  } 
+
+}

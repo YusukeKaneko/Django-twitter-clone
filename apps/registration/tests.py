@@ -27,7 +27,6 @@ class SignUpTests(TestCase):
         'password1': 'testpassword',
         'password2': 'testpassword',
         })
-        self.assertEquals(post_response.status_code, 200)
         self.assertEquals(User.objects.all().count(), 0)
         self.assertFormError(post_response, 'form', 'username', 'このフィールドは必須です。')
         
@@ -39,7 +38,6 @@ class SignUpTests(TestCase):
         'password1': 'testpassword1',
         'password2': 'testpassword1',
         })
-        self.assertEquals(post_response.status_code, 200)
         self.assertFormError(post_response, 'form', 'username', '同じユーザー名が既に登録済みです。')
     
     def test_signup_post_failure_by_defferent_password(self):
@@ -49,7 +47,6 @@ class SignUpTests(TestCase):
         'password1': 'test',
         'password2': 'testpassword',
         })
-        self.assertEquals(post_response.status_code, 200)
         self.assertEquals(User.objects.all().count(), 0)
         self.assertFormError(post_response, 'form', 'password2','確認用パスワードが一致しません。')
     
@@ -60,7 +57,6 @@ class SignUpTests(TestCase):
         'password1': 'bjki',
         'password2': 'bjki',
         })
-        self.assertEquals(post_response.status_code, 200)
         self.assertEquals(User.objects.all().count(), 0)
         self.assertFormError(post_response, 'form', 'password2', 'このパスワードは短すぎます。最低 8 文字以上必要です。')
     
@@ -71,7 +67,6 @@ class SignUpTests(TestCase):
         'password1': '123456789',
         'password2': '123456789',
         })
-        self.assertEquals(post_response.status_code, 200)
         self.assertEquals(User.objects.all().count(), 0)
         self.assertFormError(post_response, 'form', 'password2', 'このパスワードは一般的すぎます。') 
 
@@ -92,14 +87,13 @@ class LoginTests(TestCase):
         'username': 'foo',
         'password': 'testpassword',
         })
-        self.assertRedirects(post_response, reverse('apps.registration:index'))
+        self.assertRedirects(post_response, reverse('apps.tweet:home'))
     
     def test_login_post_failure_by_username(self):
         post_response = self.client.post(self.url, {
         'username': 'foo1',
         'password': 'testpassword',
         })
-        self.assertEquals(post_response.status_code, 200)
         self.assertFormError(post_response, 'form', '__all__', '正しいユーザー名とパスワードを入力してください。どちらのフィールドも大文字と小文字は区別されます。') 
         
     
@@ -108,7 +102,6 @@ class LoginTests(TestCase):
         'username': 'foo',
         'password': 'test',
         })
-        self.assertEquals(post_response.status_code, 200)
         self.assertFormError(post_response, 'form', '__all__', '正しいユーザー名とパスワードを入力してください。どちらのフィールドも大文字と小文字は区別されます。') 
 
 
