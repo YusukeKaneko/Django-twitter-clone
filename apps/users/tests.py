@@ -8,7 +8,7 @@ User = get_user_model()
 class SignUpTests(TestCase):
 
     def setUp(self):
-        self.url = reverse('apps.registration:signup')
+        self.url = reverse('apps.users:signup')
     
     def test_signup_view_get(self):
         response = self.client.get(self.url)
@@ -17,7 +17,7 @@ class SignUpTests(TestCase):
 
     def test_signup_post_success(self):
         post_response = self.client.post(self.url, {'username': 'foo','email': 'foo@example.com','password1': 'testpassword','password2': 'testpassword',})
-        self.assertRedirects(post_response, reverse('apps.registration:login'))
+        self.assertRedirects(post_response, reverse('apps.users:login'))
         self.assertTrue(User.objects.filter(username='foo').exists())
 
     def test_signup_post_failure_by_empty_field(self):
@@ -75,7 +75,7 @@ class LoginTests(TestCase):
 
     def setUp(self):
         User.objects.create_user('foo', 'foo@example.com', 'testpassword')
-        self.url = reverse('apps.registration:login')
+        self.url = reverse('apps.users:login')
     
     def test_login_view_get(self):
         response = self.client.get(self.url)
@@ -110,9 +110,9 @@ class LogoutTests(TestCase):
     def setUp(self):
         User.objects.create_user('foo', 'foo@example.com', 'testpassword')
         self.client.login(username='foo', password='testpassword')
-        self.url = reverse('apps.registration:logout')
+        self.url = reverse('apps.users:logout')
     
     def test_logout(self):
         response = self.client.get(self.url)
-        self.assertRedirects(response, reverse('apps.registration:login'))
+        self.assertRedirects(response, reverse('apps.users:login'))
 

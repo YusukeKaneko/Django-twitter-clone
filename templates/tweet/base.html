@@ -42,7 +42,7 @@
                 window.location.href = "{% url 'apps.tweet:mytweet' %}";
             };
             document.getElementById("js-logout-button").onclick = function () {
-                window.location.href = "{% url 'apps.registration:logout' %}";
+                window.location.href = "{% url 'apps.users:logout' %}";
             };
             document.getElementById("js-tweet-button").onclick = function () {
                 window.location.href = "{% url 'apps.tweet:tweet_create' %}";

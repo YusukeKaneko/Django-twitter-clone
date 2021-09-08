@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 # Application definition
 
 INSTALLED_APPS = [
-    'apps.registration',
+    'apps.users',
     'apps.tweet',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -122,8 +122,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-LOGIN_URL = 'apps.registration:login'
+LOGIN_URL = 'apps.users:login'
 LOGIN_REDIRECT_URL = 'apps.tweet:home'
-LOGOUT_REDIRECT_URL = 'apps.registration:login'
+LOGOUT_REDIRECT_URL = 'apps.users:login'
 
-AUTH_USER_MODEL = 'registration.User'
+AUTH_USER_MODEL = 'users.User'

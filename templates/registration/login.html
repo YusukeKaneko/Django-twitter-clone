@@ -3,6 +3,6 @@
 <div class="square1">
     <h1>ログイン</h1>
     {% include 'registration/form.html' with submit_label="ログイン" %}
-    <p class="signup"><a href="{% url 'apps.registration:signup' %}">新規登録はこちら</a></p>
+    <p class="signup"><a href="{% url 'apps.users:signup' %}">新規登録はこちら</a></p>
 </div>
 {% endblock %}

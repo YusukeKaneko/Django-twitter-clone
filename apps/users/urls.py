@@ -4,7 +4,7 @@ from django.urls import path
 from . import views
 
 
-app_name = 'apps.registration'
+app_name = 'apps.users'
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
