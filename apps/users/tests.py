@@ -1,6 +1,10 @@
 from django.contrib.auth import get_user_model
+from django.contrib.messages import get_messages
 from django.test import TestCase
 from django.urls import reverse
+
+from apps.tweet.models import Post
+from apps.users.models import Connection
 
 User = get_user_model()
 
@@ -115,4 +119,126 @@ class LogoutTests(TestCase):
     def test_logout(self):
         response = self.client.get(self.url)
         self.assertRedirects(response, reverse('apps.users:login'))
+
+
+class FollowTests(TestCase):
+    
+    def setUp(self):
+        self.user1 = User.objects.create_user('foo1', 'foo1@example.com', 'testpassword')
+        self.user2 = User.objects.create_user('foo2', 'foo2@example.com', 'testpassword')
+        self.url1 = reverse('apps.users:follow_in_profile', kwargs={'pk':self.user1.pk})
+        self.url2 = reverse('apps.users:follow_in_profile', kwargs={'pk':self.user2.pk})
+    
+    def test_follow_success(self):
+        self.client.login(username='foo1', password='testpassword')
+        response = self.client.get(self.url2)
+        self.assertRedirects(response, reverse('apps.users:profile', kwargs={'username': self.user2.username}))
+        following = Connection.objects.filter(user=self.user1).values_list('following')
+        following_list = User.objects.filter(id__in=following)
+        for following in following_list:
+            self.assertEqual(following.username, 'foo2')
+    
+    def test_unfollow_success(self):
+        self.client.login(username='foo1', password='testpassword')
+        self.client.get(self.url2)
+        self.client.get(self.url2)
+        following = Connection.objects.filter(user=self.user1).values_list('following')
+        following_list = User.objects.filter(id__in=following).count()
+        self.assertEqual(following_list, 0)
+
+    def test_follow_failure_by_common_user(self):
+        self.client.login(username='foo1', password='testpassword')
+        response = self.client.get(self.url1)
+        self.assertRedirects(response, reverse('apps.users:profile', kwargs={'username': self.user1.username}))
+        messages = list(get_messages(response.wsgi_request))
+        message = str(messages[0])
+        self.assertEqual(message, '自分をフォローすることはできません')
+        following = Connection.objects.filter(user=self.user1).values_list('following')
+        following_list = User.objects.filter(id__in=following).count()
+        self.assertEqual(following_list, 0)
+
+
+class FollowingAndFollowersListTest(TestCase):
+
+    def setUp(self):
+        self.user1 = User.objects.create_user('foo1', 'foo1@example.com', 'testpassword')
+        self.user2 = User.objects.create_user('foo2', 'foo2@example.com', 'testpassword')
+        self.client.login(username='foo1', password='testpassword')
+        self.client.get(reverse('apps.users:follow_in_profile', kwargs={'pk':self.user2.pk}))
+        self.client.login(username='foo2', password='testpassword')
+        self.client.get(reverse('apps.users:follow_in_profile', kwargs={'pk':self.user1.pk}))
+        self.url1 = reverse('apps.users:following_list', kwargs={'username':self.user1.username})
+        self.url2 = reverse('apps.users:followers_list', kwargs={'username':self.user1.username})
+    
+    def test_following_list_get(self):
+        self.client.login(username='foo1', password='testpassword')
+        response = self.client.get(self.url1)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/following_list.html')
+        self.assertQuerysetEqual(
+            response.context['following_list'],
+            ['<User: foo2>'], 
+        )
+        self.assertContains(response, self.user2.username)
+    
+    def test_followers_list_get(self):
+        self.client.login(username='foo1', password='testpassword')
+        response = self.client.get(self.url2)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/followers_list.html')
+        self.assertQuerysetEqual(
+            response.context['followers_list'],
+            ['<Connection: foo2>'], 
+        )
+        self.assertContains(response, self.user2.username)
+
+
+class UserProfileTest(TestCase):
+        
+    def setUp(self):
+        self.user1 = User.objects.create_user('foo1', 'foo1@example.com', 'testpassword')
+        self.user2 = User.objects.create_user('foo2', 'foo2@example.com', 'testpassword')
+        self.client.login(username='foo1', password='testpassword')
+        self.client.get(reverse('apps.users:follow_in_profile', kwargs={'pk':self.user2.pk}))
+        self.client.login(username='foo2', password='testpassword')
+        self.client.get(reverse('apps.users:follow_in_profile', kwargs={'pk':self.user1.pk}))
+        self.tweet1 = Post.objects.create(title='test1', content='test1', user=self.user1)
+        self.tweet2 = Post.objects.create(title='test2', content='test2', user=self.user2)
+        self.url1 = reverse('apps.users:profile', kwargs={'username': self.user1.username})
+        self.url2 = reverse('apps.users:profile', kwargs={'username': self.user2.username})
+
+    def test_user1_profile_get(self):
+        self.client.login(username='foo1', password='testpassword')
+        response = self.client.get(self.url1)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/profile.html')
+        self.assertEqual(response.context['user_data'].username, 'foo1')
+        self.assertContains(response, self.user1.username)
+        self.assertQuerysetEqual(
+            response.context['post_data'],
+            ['<Post: test1>'],
+            ordered = True
+        )
+        self.assertContains(response, self.tweet1.title)
+        self.assertEqual(response.context['following_count'], 1)
+        self.assertEqual(response.context['followers_count'], 1)
+        request_user_following_list = response.context['request_user_following_list']
+        for request_user_following in request_user_following_list:
+            self.assertEqual(request_user_following.username, 'foo2')
+    
+    def test_user2_profile_get(self):
+        self.client.login(username='foo1', password='testpassword')
+        response = self.client.get(self.url2)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/profile.html')
+        self.assertEqual(response.context['user_data'].username, 'foo2')
+        self.assertContains(response, self.user1.username)
+        self.assertQuerysetEqual(
+            response.context['post_data'],
+            ['<Post: test2>'],
+            ordered = True
+        )
+        self.assertContains(response, self.tweet2.title)
+        self.assertEqual(response.context['following_count'], 1)
+        self.assertEqual(response.context['followers_count'], 1)
 

@@ -1,6 +1,6 @@
 {% extends 'tweet/base.html' %}
 {% load widget_tweaks %}
-{% load static %} 
+{% load static %}
 
 {% block content %}
 <div class="tweet-popup" id="js-popup">
@@ -17,7 +17,9 @@
     </div>
     <div class="background" id="js-background"></div>
 </div>
+{% endblock content %}
 
+{% block js-content %}
 <script>
     window.onload = function () {
         var popup = document.getElementById('js-popup');
@@ -39,4 +41,4 @@
         }
     }
 </script>
-{% endblock content %}
+{% endblock js-content %}

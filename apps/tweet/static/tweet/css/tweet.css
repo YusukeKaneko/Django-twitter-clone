@@ -2,10 +2,16 @@
   box-sizing: border-box;
 }
 
+html{
+  height: 100%;
+}
+
 body {
   color: #333;
   background-color: black;
   font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  min-width: 450px;
+  height: 100%;
 }
 
 .header{
@@ -13,8 +19,7 @@ body {
   padding-top: 10px;
   background-color: white;
   position: sticky;
-  top: 0;
-  z-index: 500;
+  top: 0px;
 }
 
 .header-ttl{
@@ -34,8 +39,8 @@ body {
 .wrapper{
   display: flex;
   justify-content: space-between; 
-  width: 1200px;
-  height: 1200px;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
 }
 
@@ -44,20 +49,16 @@ body {
   border-right: 1px solid white;
 }
 
-.main{
-  width: 65%;
-  padding: 60px; 
-}
-
 .nav-bar{
+  display: block;
+  margin: 0;
   position: sticky;
-  top: 150px;
+  top:140px;
+  text-align: center;
 }
 
 .nav-bar-item {
-  display: inline-block;
-  text-align: center;
-  width: 180px;
+  width: 200px;
   height: 60px;
   border-radius: 30px;      
   font-size: 18pt;     
@@ -79,10 +80,8 @@ body {
 }
 
 .tweet-button{
-  display: inline-block;
-  text-align: center;
   margin-top: 300px;
-  width: 200px;
+  width: 220px;
   height: 50px;
   border-radius: 25px;      
   font-size: 12pt; 
@@ -98,43 +97,6 @@ body {
 .tweet-button:hover{
   opacity: 0.8;
 } 
-
-.tweet-button2{
-  display: inline-block;
-  text-align: center;
-  margin-top: 80px;
-  width: 200px;
-  height: 50px;
-  border-radius: 25px;      
-  font-size: 12pt; 
-  font-weight: bold;    
-  cursor: pointer;    
-  background-color: rgb(41, 171, 231);    
-  color: #ffffff;     
-  line-height: 1em;        
-  transition: .3s;        
-  border: 2px solid rgb(41, 171, 231);
-}
-
-.tweet-button2:hover{
-  opacity: 0.8;
-} 
-
-.tweet-list{
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  background-color: #37beb0;
-  padding-bottom: 15px;
-}
-
-.tweet-list:not(:last-child) {
-  margin-bottom: 25px;
-} 
-
-.tweet-content{
-  color: white;
-}
 
 .tweet-popup {
   position: fixed;
@@ -168,6 +130,25 @@ body {
   border-radius: 18px;
 }
 
+.tweet-button2{
+  margin-top: 80px;
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;      
+  font-size: 12pt; 
+  font-weight: bold;    
+  cursor: pointer;    
+  background-color: rgb(41, 171, 231);    
+  color: #ffffff;     
+  line-height: 1em;        
+  transition: .3s;        
+  border: 2px solid rgb(41, 171, 231);
+}
+
+.tweet-button2:hover{
+  opacity: 0.8;
+} 
+
 .close-button {
   position: absolute;
   top: 10px; 
@@ -188,28 +169,133 @@ body {
   cursor: pointer;
 }
 
-.delete-link{
-  color:red;
+.main{
+  width: 65%;
+  padding: 60px; 
 }
 
-.delete{
+.tweet-list{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #37beb0;
+  padding-bottom: 15px;
+}
+
+.tweet-list:not(:last-child) {
+  margin-bottom: 25px;
+} 
+
+.tweet-list-content a{
+  color: black;
+  text-decoration: none;
+}
+
+.tweet-list-content a:hover{
+  text-decoration: underline;
+}
+
+.tweet-content{
   color: white;
 }
 
+.tweet-content a{
+  color: white;
+  text-decoration: none;
+}
 
-@media screen and (max-width: 1500px) {
+.tweet-content a:hover{
+  text-decoration: underline;
+}
 
-  .wrapper{
-    display: flex;
-    justify-content: space-between; 
-    width: 100%;
-    height: 1200px;
-    margin: 0 auto;
-  }
+.delete-alert{
+  color: white;
+}
+
+.profile-container{
+   color: white;
+   border-top: 2px solid white;
+   border-bottom: 2px solid white;
+   padding-top: 32px;
+   padding-bottom: 32px;
+   margin-bottom: 25px;
+}
+
+.profile-content{
+  margin:0;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.following-followers-link{
+  color: white;
+  text-decoration: none;
+}
+
+.following-followers-link:hover{
+  text-decoration: underline;
+}
+
+.following-followers-number{
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.follow-button{
+  font-weight: bold;
+  margin-top: 20px;
+  margin-left: 50px;
+  width: 100px;
+  height: 40px;
+  border-radius: 30px;      
+  font-size: 11pt;     
+  cursor: pointer;    
+  background: white;    
+  color: black;     
+  line-height: 1em;        
+  transition: .3s;
+  border: 0;
+}
+
+.follow-button:hover{
+  opacity: 0.8;
+} 
+
+.following-followers-list{
+  display: flex;
+  border-bottom: 2px solid white;
+  margin:0;
+  justify-content: center;
+  padding: 20px;
+}
+
+.following-followers-list:not(:last-child) {
+  margin-bottom: 25px;
+}
+
+.username{
+  margin-top:40px
+}
+
+.username a{
+  text-decoration: none;
+  color:white;
+}
+
+.username a:hover{
+  text-decoration: underline;
+}
+
+
+@media screen and (max-width: 800px) {
 
   .nav-bar-item {
-    display: inline-block;
-    text-align: center;
     width: 100%;
     height: 60px;
     border-radius: 30px;      
@@ -220,20 +306,9 @@ body {
     line-height: 1em;        
     transition: .3s;        
     border: 2px solid black;
-  }
-
-  .nav-bar-item:not(:last-child) {
-    margin-top: 20px;
-  }
-
-  .nav-bar-item:hover {
-    opacity: 0.7;
-    background-color: gray;
-  }
+  } 
 
   .tweet-button{
-    display: inline-block;
-    text-align: center;
     margin-top: 300px;
     width: 100%;
     height: 50px;
@@ -248,8 +323,51 @@ body {
     border: 2px solid rgb(41, 171, 231);
   }
 
-  .tweet-button:hover{
-    opacity: 0.8;
-  } 
+  .profile-content{
+    margin:0;
+    display: block;
+    margin:auto;
+    padding: 20px;
+  }
+
+  .user-icon{
+    text-align: center;
+  }
+
+  .user-info{
+    text-align: center;
+  }
+
+  .user-follow{
+    text-align: center;
+  }
+
+  .follow-button{
+    font-weight: bold;
+    margin:0;
+    width: 100px;
+    height: 40px;
+    border-radius: 30px;      
+    font-size: 11pt;     
+    cursor: pointer;    
+    background: white;    
+    color: black;     
+    line-height: 1em;        
+    transition: .3s;
+    border: 0;
+  }
+
+  .following-followers-list{
+    display: block;
+    border-bottom: 2px solid white;
+    margin:0;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .username{
+    margin-top:0px;
+    text-align: center;
+  }
 
 }

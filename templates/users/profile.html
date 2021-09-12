@@ -1,0 +1,63 @@
+{% extends 'tweet/base.html' %}
+{% load static %}
+
+{% block content %}
+<header class="profile-container">
+    <div class="profile-content">
+        <div class="user-icon">
+            <img src="https://free-icons.net/wp-content/uploads/2021/01/symbol047.png" width="120" height="120">
+        </div>
+        <div class="user-info">
+            <h1>{{ user_data.username }}</h1>
+            <ul>
+                <li>
+                    <a class="following-followers-link" href="{% url 'apps.users:following_list' user_data.username %}">
+                        <span class="following-followers-number">{{following_count}}</span>
+                        <span style="color:gray">Following</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="following-followers-link" href="{% url 'apps.users:followers_list' user_data.username %}">
+                        <span class="following-followers-number">{{followers_count}}</span>
+                        <span style="color:gray">Followers</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="user-follow">
+            {% if request.user != user_data %}
+                {% if user_data in request_user_following_list %}
+                <input type="submit" value="Following" class="follow-button" id="js-follow-button">
+                {% else %}
+                <input type="submit" value="Follow" class="follow-button" id="js-follow-button">
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+{% for item in post_data %}
+<article class="tweet-list">
+    <div class="tweet-list-content">
+        <p>投稿日：{{item.created_at}}</p>
+        <p>タイトル：{{item.title}}</p>
+        <p><a href="{% url 'apps.tweet:tweet_detail' item.pk %}">詳細</a></p>
+    </div>
+</article>
+{% endfor %}
+{% endblock content %}
+
+{% block js-content %}
+<script>
+    document.getElementById("js-follow-button").onclick = function () {
+        window.location.href = "{% url 'apps.users:follow_in_profile' user_data.pk %}";
+    };
+</script>
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        alert('{{ message }}')
+    </script>
+    {% endfor %}
+{% endif %}
+{% endblock js-content %}

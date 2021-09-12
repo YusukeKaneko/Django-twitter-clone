@@ -1,33 +1,27 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, CreateView, DetailView, DeleteView
-from django.shortcuts import get_object_or_404 
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from django.views.generic import CreateView, DeleteView, DetailView, ListView
 
-from .models import Post
 from .forms import PostCreateForm
+from .models import Post
 
 
 class Home(LoginRequiredMixin, ListView):
    model = Post
    template_name = 'tweet/tweet_list.html'
-      
-
-class MyTweet(LoginRequiredMixin, ListView):
-   model = Post
-   template_name = 'tweet/tweet_list.html'
-
-   def get_queryset(self):
-       return Post.objects.filter(user=self.request.user)
 
 
 class CreateTweet(LoginRequiredMixin, CreateView):
    form_class = PostCreateForm
    template_name = 'tweet/tweet_create.html'
-   success_url = reverse_lazy('apps.tweet:mytweet')
 
+   def get_success_url(self):
+        return reverse('apps.users:profile', kwargs={'username': self.request.user.username})
+   
    def form_valid(self, form):
-       form.instance.user = self.request.user
-       return super().form_valid(form)
+      form.instance.user = self.request.user
+      return super().form_valid(form)
 
 
 class DetailTweet(LoginRequiredMixin, DetailView):
@@ -38,10 +32,11 @@ class DetailTweet(LoginRequiredMixin, DetailView):
 class DeleteTweet(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
    model = Post
    template_name = 'tweet/tweet_delete.html'
-   success_url = reverse_lazy('apps.tweet:mytweet')
+   
+   def get_success_url(self):
+        return reverse('apps.users:profile', kwargs={'username': self.request.user.username})
 
    def test_func(self, **kwargs):
-       pk = self.kwargs["pk"]
-       post = get_object_or_404(Post, pk=pk)
-       return (post.user == self.request.user) 
-       
+      pk = self.kwargs["pk"]
+      post = get_object_or_404(Post, pk=pk)
+      return (post.user == self.request.user) 
