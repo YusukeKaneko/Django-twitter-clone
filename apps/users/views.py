@@ -17,7 +17,7 @@ class SignUpView(CreateView):
     template_name = 'registration/signup.html'
 
 
-class UserProfile(LoginRequiredMixin, View):
+class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
       user_data = User.objects.get(username=self.kwargs["username"])
       post_data = Post.objects.filter(user__username=self.kwargs["username"])
@@ -38,7 +38,7 @@ class FollowBase(LoginRequiredMixin, View):
     
         if follower[0].user.username == following.username:
             messages.error(request, '自分をフォローすることはできません') 
-        elif following in follower[0].following.all():
+        elif follower[0].following.filter(pk=self.kwargs['pk']).exists():
             follower[0].following.remove(following)
         else:
             follower[0].following.add(following)

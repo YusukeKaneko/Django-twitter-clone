@@ -11,7 +11,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
     path('', include('apps.tweet.urls')),
-    path('<str:username>/', views.UserProfile.as_view(), name='profile'),
+    path('<str:username>/', views.UserProfileView.as_view(), name='profile'),
     path('follow/<int:pk>', views.FollowInUserProfile.as_view(), name='follow_in_profile'),
     path('<str:username>/following', views.FollowingListView.as_view(), name='following_list'),
     path('<str:username>/followers', views.FollowersListView.as_view(), name='followers_list'),

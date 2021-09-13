@@ -7,12 +7,12 @@ from .forms import PostCreateForm
 from .models import Post
 
 
-class Home(LoginRequiredMixin, ListView):
+class HomeView(LoginRequiredMixin, ListView):
    model = Post
    template_name = 'tweet/tweet_list.html'
 
 
-class CreateTweet(LoginRequiredMixin, CreateView):
+class CreateTweetView(LoginRequiredMixin, CreateView):
    form_class = PostCreateForm
    template_name = 'tweet/tweet_create.html'
 
@@ -24,12 +24,12 @@ class CreateTweet(LoginRequiredMixin, CreateView):
       return super().form_valid(form)
 
 
-class DetailTweet(LoginRequiredMixin, DetailView):
+class DetailTweetView(LoginRequiredMixin, DetailView):
    model = Post
    template_name = 'tweet/tweet_detail.html'
 
 
-class DeleteTweet(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class DeleteTweetView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
    model = Post
    template_name = 'tweet/tweet_delete.html'
    
