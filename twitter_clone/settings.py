@@ -123,7 +123,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_URL = 'apps.users:login'
-LOGIN_REDIRECT_URL = 'apps.tweet:home'
+LOGIN_REDIRECT_URL = 'apps.users:home'
 LOGOUT_REDIRECT_URL = 'apps.users:login'
 
 AUTH_USER_MODEL = 'users.User'

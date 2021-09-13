@@ -91,7 +91,7 @@ class LoginTests(TestCase):
         'username': 'foo',
         'password': 'testpassword',
         })
-        self.assertRedirects(post_response, reverse('apps.tweet:home'))
+        self.assertRedirects(post_response, reverse('apps.users:home'))
     
     def test_login_post_failure_by_username(self):
         post_response = self.client.post(self.url, {

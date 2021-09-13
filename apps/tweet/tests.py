@@ -14,7 +14,7 @@ class TweetCreateTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user('foo', 'foo@example.com', 'testpassword')
         self.client.login(username='foo', password='testpassword')
-        self.url = reverse('apps.tweet:tweet_create')
+        self.url = reverse('apps.users:tweet_create')
     
     def test_tweet_create_view_get(self):
         response = self.client.get(self.url)
@@ -38,7 +38,7 @@ class TweetListTests(TestCase):
         self.tweet1 = Post.objects.create(title='test1', content='test1', user=self.user1)
         time.sleep(0.3)
         self.tweet2 = Post.objects.create(title='test2', content='test2', user=self.user2)
-        self.url = reverse('apps.tweet:home')
+        self.url = reverse('apps.users:home')
     
     def test_tweet_list_get(self):
         self.client.login(username='foo1', password='testpassword')
@@ -62,7 +62,7 @@ class TweetDetailTests(TestCase):
         self.user = User.objects.create_user('foo', 'foo@example.com', 'testpassword')
         self.client.login(username='foo', password='testpassword')
         self.tweet = Post.objects.create(title='test', content='test', user=self.user)
-        self.url = reverse('apps.tweet:tweet_detail', kwargs={'pk':self.tweet.pk})
+        self.url = reverse('apps.users:tweet_detail', kwargs={'pk':self.tweet.pk})
 
     def test_tweet_detail_view_get(self):
         response = self.client.get(self.url)
@@ -78,7 +78,7 @@ class TweetDeleteTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user('foo', 'foo@example.com', 'testpassword')
         self.tweet = Post.objects.create(title='test', content='test', user=self.user)
-        self.url = reverse('apps.tweet:tweet_delete', kwargs={'pk':self.tweet.pk})
+        self.url = reverse('apps.users:tweet_delete', kwargs={'pk':self.tweet.pk})
 
     def test_tweet_delete_view_get(self):
         self.client.login(username='foo', password='testpassword')

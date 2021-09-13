@@ -8,7 +8,7 @@
             <p>投稿者：<a href="{% url 'apps.users:profile' item.user.username %}">{{item.user.username}}</a></p>
             <p>投稿日：{{item.created_at}}</p>
             <p>タイトル：{{item.title}}</p>
-            <p><a href="{% url 'apps.tweet:tweet_detail' item.pk %}">詳細</a></p>
+            <p><a href="{% url 'apps.users:tweet_detail' item.pk %}">詳細</a></p>
         </div>
     </article>
     {% endfor %}
