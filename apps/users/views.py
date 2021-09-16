@@ -19,7 +19,7 @@ class SignUpView(CreateView):
 
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-      user_data = User.objects.get(username=self.kwargs["username"])
+      user_data = get_object_or_404(User, username=self.kwargs["username"])
       post_data = Post.objects.filter(user__username=self.kwargs["username"])
       following_data =  Connection.objects.filter(user=user_data).values_list('following')
       following_count = User.objects.filter(id__in=following_data).count()
@@ -48,7 +48,7 @@ class FollowInUserProfile(FollowBase):
 
     def get(self, request, *args, **kwargs):
         super().get(request, *args, **kwargs)
-        user = get_object_or_404(User, pk=self.kwargs["pk"])
+        user = User.objects.get(pk=self.kwargs["pk"])
         return redirect(reverse('apps.users:profile', kwargs={'username':user.username}))
 
 
@@ -58,7 +58,7 @@ class FollowingListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
       context = super().get_context_data(*args, **kwargs)
-      user =  User.objects.get(username=self.kwargs["username"])
+      user =  get_object_or_404(User, username=self.kwargs["username"])
       following = Connection.objects.filter(user=user).values_list('following')
       context['following_list'] = User.objects.filter(id__in=following)
       return context
@@ -70,5 +70,5 @@ class FollowersListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
       context = super().get_context_data(*args, **kwargs)
-      context['followers_list'] = User.objects.get(username=self.kwargs["username"]).following.all()
+      context['followers_list'] = get_object_or_404(User, username=self.kwargs["username"]).following.all()
       return context
