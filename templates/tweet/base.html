@@ -22,7 +22,7 @@
             <nav class="nav">
                 <div class="nav-bar">
                     <input type="submit" value="Home" class="nav-bar-item" id="js-home-button">
-                    <input type="submit" value="MyTweet" class="nav-bar-item" id="js-mytweet-button">
+                    <input type="submit" value="Profile" class="nav-bar-item" id="js-profile-button">
                     <input type="submit" value="Logout" class="nav-bar-item" id="js-logout-button">
                     <input type="submit" value="Tweet" class="tweet-button" id="js-tweet-button">
                 </div>
@@ -35,19 +35,22 @@
         </div>
 
         <script>
-            document.getElementById("js-home-button").onclick = function() {
-                window.location.href = "{% url 'apps.tweet:home' %}";
+            document.getElementById("js-home-button").onclick = function () {
+                window.location.href = "{% url 'apps.users:home' %}";
             };
-            document.getElementById("js-mytweet-button").onclick = function () {
-                window.location.href = "{% url 'apps.tweet:mytweet' %}";
+            document.getElementById("js-profile-button").onclick = function () {
+                window.location.href = "{% url 'apps.users:profile' request.user.username %}";
             };
             document.getElementById("js-logout-button").onclick = function () {
                 window.location.href = "{% url 'apps.users:logout' %}";
             };
             document.getElementById("js-tweet-button").onclick = function () {
-                window.location.href = "{% url 'apps.tweet:tweet_create' %}";
+                window.location.href = "{% url 'apps.users:tweet_create' %}";
             };
         </script>
+
+        {% block js-content %}
+        {% endblock js-content %}
 
     </body>
 

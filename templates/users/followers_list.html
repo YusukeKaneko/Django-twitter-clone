@@ -1,0 +1,15 @@
+{% extends 'tweet/base.html' %}
+{% load static %}
+
+{% block content %}
+{% for follower in followers_list %}
+<div class="following-followers-list">
+    <div class="user-icon">
+        <img src="https://free-icons.net/wp-content/uploads/2021/01/symbol047.png" width="120" height="120">
+    </div>
+    <h1 class="username">
+        <a href="{% url 'apps.users:profile' follower.user.username %}">{{follower.user.username}}</a>
+    </h1>
+</div>
+{% endfor %}
+{% endblock content %}

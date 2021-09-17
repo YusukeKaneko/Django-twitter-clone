@@ -3,12 +3,12 @@
 
 {% block content %}
 <div class="tweet-content">
+    <p>投稿者：<a href="{% url 'apps.users:profile' post.user.username %}">{{post.user}}</a></p>
+    <p>投稿日：{{post.created_at}}</p>
     <p>タイトル：{{post.title}}</p>
-    <p>投稿者：{{post.user}}</p>
     <p>コメント：{{post.content}}</p>
-
     {% if post.user == request.user %}　
-    <a class="delete-link" href="{% url 'apps.tweet:tweet_delete' post.pk %}">削除</a>
+    <p><a href="{% url 'apps.users:tweet_delete' post.pk %}">削除</a></p>
     {% endif %}
 </div>
 {% endblock content %}

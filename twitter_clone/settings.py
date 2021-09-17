@@ -72,6 +72,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'twitter_clone.wsgi.application'
 
+NOSE_ARGS = [
+    '--nocapture',
+    '--nologcapture',
+]
+
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -123,7 +128,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_URL = 'apps.users:login'
-LOGIN_REDIRECT_URL = 'apps.tweet:home'
+LOGIN_REDIRECT_URL = 'apps.users:home'
 LOGOUT_REDIRECT_URL = 'apps.users:login'
 
 AUTH_USER_MODEL = 'users.User'
