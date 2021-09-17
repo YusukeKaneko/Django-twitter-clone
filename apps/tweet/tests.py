@@ -36,6 +36,7 @@ class TweetListTests(TestCase):
         self.user1 = User.objects.create_user('foo1', 'foo1@example.com', 'testpassword')
         self.user2 = User.objects.create_user('foo2', 'foo2@example.com', 'testpassword')
         self.tweet1 = Post.objects.create(title='test1', content='test1', user=self.user1)
+        time.sleep(0.3)
         self.tweet2 = Post.objects.create(title='test2', content='test2', user=self.user2)
         self.url = reverse('apps.users:home')
     
@@ -44,8 +45,6 @@ class TweetListTests(TestCase):
         response = self.client.get(self.url)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'tweet/tweet_list.html')
-        print("tweet1作成日時:"+str(self.tweet1.created_at))
-        print("tweet2作成日時:"+str(self.tweet2.created_at))
         self.assertQuerysetEqual(
             response.context['post_list'],
             ['<Post: test2>', '<Post: test1>'], 

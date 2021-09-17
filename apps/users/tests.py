@@ -133,7 +133,7 @@ class FollowTests(TestCase):
         self.client.login(username='foo1', password='testpassword')
         response = self.client.get(self.url2)
         self.assertRedirects(response, reverse('apps.users:profile', kwargs={'username': self.user2.username}))
-        following = Connection.objects.filter(user=self.user1).values_list('following')
+        following = Connection.objects.filter(user=self.user1).values_list('followee')
         following_list = User.objects.filter(id__in=following)
         for following in following_list:
             self.assertEqual(following.username, 'foo2')
@@ -142,7 +142,7 @@ class FollowTests(TestCase):
         self.client.login(username='foo1', password='testpassword')
         self.client.get(self.url2)
         self.client.get(self.url2)
-        following = Connection.objects.filter(user=self.user1).values_list('following')
+        following = Connection.objects.filter(user=self.user1).values_list('followee')
         following_list = User.objects.filter(id__in=following).count()
         self.assertEqual(following_list, 0)
 
@@ -153,7 +153,7 @@ class FollowTests(TestCase):
         messages = list(get_messages(response.wsgi_request))
         message = str(messages[0])
         self.assertEqual(message, '自分をフォローすることはできません')
-        following = Connection.objects.filter(user=self.user1).values_list('following')
+        following = Connection.objects.filter(user=self.user1).values_list('followee')
         following_list = User.objects.filter(id__in=following).count()
         self.assertEqual(following_list, 0)
 

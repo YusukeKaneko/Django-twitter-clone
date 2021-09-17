@@ -18,30 +18,32 @@ class SignUpView(CreateView):
 
 
 class UserProfileView(LoginRequiredMixin, View):
+  
     def get(self, request, *args, **kwargs):
       user_data = get_object_or_404(User, username=self.kwargs["username"])
       post_data = Post.objects.filter(user__username=self.kwargs["username"])
-      following_data =  Connection.objects.filter(user=user_data).values_list('following')
+      following_data =  Connection.objects.filter(user=user_data).values_list('followee')
       following_count = User.objects.filter(id__in=following_data).count()
       followers_data = User.objects.get(username=self.kwargs["username"]).follower.all()
       followers_count = followers_data.count()
-      request_user_following_data = Connection.objects.filter(user=self.request.user).values_list('following')
+      request_user_following_data = Connection.objects.filter(user=self.request.user).values_list('followee')
       request_user_following_list = User.objects.filter(id__in=request_user_following_data)
-      return render(request, 'users/profile.html', {'user_data':user_data, 'post_data':post_data, 'following_count':following_count, 'followers_count':followers_count ,'request_user_following_list':request_user_following_list})
+      context = {'user_data':user_data, 'post_data':post_data, 'following_count':following_count, 'followers_count':followers_count ,'request_user_following_list':request_user_following_list}
+      return render(request, 'users/profile.html', context)
 
 
 class FollowBase(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         follower = Connection.objects.get_or_create(user=self.request.user)
-        following = get_object_or_404(User, pk=self.kwargs["pk"])
+        followee = get_object_or_404(User, pk=self.kwargs["pk"])
     
-        if follower[0].user.username == following.username:
+        if follower[0].user.username == followee.username:
             messages.error(request, '自分をフォローすることはできません') 
-        elif follower[0].following.filter(pk=self.kwargs['pk']).exists():
-            follower[0].following.remove(following)
+        elif follower[0].followee.filter(pk=self.kwargs['pk']).exists():
+            follower[0].followee.remove(followee)
         else:
-            follower[0].following.add(following)
+            follower[0].followee.add(followee)
 
 
 class FollowInUserProfile(FollowBase):
@@ -59,7 +61,7 @@ class FollowingListView(LoginRequiredMixin, ListView):
     def get_context_data(self, *args, **kwargs):
       context = super().get_context_data(*args, **kwargs)
       user =  get_object_or_404(User, username=self.kwargs["username"])
-      following = Connection.objects.filter(user=user).values_list('following')
+      following = Connection.objects.filter(user=user).values_list('followee')
       context['following_list'] = User.objects.filter(id__in=following)
       return context
 
