@@ -5,7 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, ListView
 
-from apps.tweet.models import Post
+from apps.tweet.models import Like, Post
 
 from .forms import SignUpForm
 from .models import Connection, User
@@ -28,18 +28,14 @@ class UserProfileView(LoginRequiredMixin, View):
       followers_count = followers_data.count()
       request_user_following_data = Connection.objects.filter(user=self.request.user).values_list('followee')
       request_user_following_list = User.objects.filter(id__in=request_user_following_data) 
-      liked_list = []
-      for post in post_data:
-         liked = post.like_set.filter(user=self.request.user)
-         if liked.exists():
-               liked_list.append(post.pk)
+      liked_post_pk_list = Like.objects.filter(user=self.request.user).values_list('post', flat=True)
       context = {
         'user_data':user_data, 
         'post_data':post_data, 
         'following_count':following_count, 
         'followers_count':followers_count, 
         'request_user_following_list':request_user_following_list,
-        'liked_list': liked_list,
+        'liked_post_pk_list': liked_post_pk_list,
       }
       return render(request, 'users/profile/profile.html', context)
 

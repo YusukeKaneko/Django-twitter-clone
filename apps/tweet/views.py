@@ -12,14 +12,10 @@ class HomeView(LoginRequiredMixin, View):
 
    def get (self, request, *args, **kwargs):
       post_list = Post.objects.all()
-      liked_list = []
-      for post in post_list:
-         liked = post.like_set.filter(user=self.request.user)
-         if liked.exists():
-               liked_list.append(post.pk)
+      liked_post_pk_list = Like.objects.filter(user=self.request.user).values_list('post', flat=True)
       context = {
          'post_list': post_list,
-         'liked_list': liked_list,
+         'liked_post_pk_list': liked_post_pk_list,
       }
       return render(request, 'tweet/tweet_list.html', context)
 
@@ -27,12 +23,8 @@ class HomeView(LoginRequiredMixin, View):
 class LikeTweetView(LoginRequiredMixin, View):
 
    def get (self, request, *args, **kwargs):
-      post_list = Post.objects.all()
-      liked_post_list = []
-      for post in post_list:
-         liked = Like.objects.filter(user=self.request.user, post=post)
-         if liked.exists():
-               liked_post_list.append(post)
+      liked_post_pk_list = Like.objects.filter(user=self.request.user).values_list('post')
+      liked_post_list = Post.objects.filter(id__in=liked_post_pk_list)
       context = {
          'liked_post_list': liked_post_list,
       }
@@ -55,10 +47,10 @@ class DetailTweetView(LoginRequiredMixin, View):
    
    def get (self, request, *args, **kwargs):
       post = get_object_or_404(Post, pk=self.kwargs["pk"])
-      liked_list = request.user.like_set.values_list('post')
+      liked_post_pk_list = Like.objects.filter(user=self.request.user).values_list('post', flat=True)
       context = {
          'post': post,
-         'liked_list': liked_list,
+         'liked_post_pk_list': liked_post_pk_list,
       }
       return render(request, 'tweet/tweet_detail.html', context)
 
@@ -80,9 +72,7 @@ class LikeTweet(LoginRequiredMixin, View):
 
    def post(self, request, *args, **kwargs):
       post = get_object_or_404(Post, pk=self.kwargs['pk'])
-      like = Like.objects.filter(user=self.request.user, post=post)
-      if not like.exists():
-         like.create(user=request.user, post=post)
+      Like.objects.get_or_create(user=self.request.user, post=post)
       likes_count = post.like_set.count()
       liked = True
       context = {
@@ -98,7 +88,7 @@ class UnlikeTweet(LoginRequiredMixin, View):
    def post(self, request, *args, **kwargs):
       post = get_object_or_404(Post, pk=self.kwargs['pk'])
       like = Like.objects.filter(user=self.request.user, post=post)
-      if like.exists():
+      if like:
          like.delete()
       likes_count = post.like_set.count()
       liked = False

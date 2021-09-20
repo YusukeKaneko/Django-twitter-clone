@@ -36,6 +36,8 @@
             </main>
         </div>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'tweet/js/ajax.js' %}" defer></script>
         <script>
             document.getElementById('js-home-button').onclick = function () {
                 window.location.href = "{% url 'apps.users:home' %}";
@@ -53,8 +55,6 @@
                 window.location.href = "{% url 'apps.users:tweet_create' %}";
             };
         </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="{% static 'tweet/js/ajax.js' %}" defer></script>
         {% block js-content %}
         {% endblock js-content %}
 

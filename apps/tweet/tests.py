@@ -1,11 +1,11 @@
-import time
 import json
+import time
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from apps.tweet.models import Post, Like
+from apps.tweet.models import Like, Post
 
 User = get_user_model()
 
