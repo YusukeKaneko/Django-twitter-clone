@@ -7,8 +7,22 @@
     <p>投稿日：{{post.created_at}}</p>
     <p>タイトル：{{post.title}}</p>
     <p>コメント：{{post.content}}</p>
+
+    {% if post.pk in liked_post_pk_list %}
+    <button class="like" data-url="{% url 'apps.users:unlike' post.pk %}">
+        <i class="fas fa-thumbs-up"></i>
+        <span>{{post.like_set.count }}</span>
+    </button>
+    {% else %}
+    <button class="like" data-url="{% url 'apps.users:like' post.pk %}">
+        <i class="far fa-thumbs-up"></i>
+        <span>{{post.like_set.count }}</span>
+    </button>
+    {% endif %}
+
     {% if post.user == request.user %}　
     <p><a href="{% url 'apps.users:tweet_delete' post.pk %}">削除</a></p>
     {% endif %}
+
 </div>
 {% endblock content %}

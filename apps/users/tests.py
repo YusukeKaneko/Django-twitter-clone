@@ -17,7 +17,7 @@ class SignUpTests(TestCase):
     def test_signup_view_get(self):
         response = self.client.get(self.url)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'registration/signup.html')
+        self.assertTemplateUsed(response, 'users/registration/signup.html')
 
     def test_signup_post_success(self):
         post_response = self.client.post(self.url, {'username': 'foo','email': 'foo@example.com','password1': 'testpassword','password2': 'testpassword',})
@@ -84,7 +84,7 @@ class LoginTests(TestCase):
     def test_login_view_get(self):
         response = self.client.get(self.url)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertTemplateUsed(response, 'users/registration/login.html')
     
     def test_login_post_success(self):
         post_response = self.client.post(self.url, {
@@ -174,7 +174,7 @@ class FollowingAndFollowersListTest(TestCase):
         self.client.login(username='foo1', password='testpassword')
         response = self.client.get(self.url1)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'users/following_list.html')
+        self.assertTemplateUsed(response, 'users/profile/following_list.html')
         self.assertQuerysetEqual(
             response.context['following_list'],
             ['<User: foo2>'], 
@@ -185,7 +185,7 @@ class FollowingAndFollowersListTest(TestCase):
         self.client.login(username='foo1', password='testpassword')
         response = self.client.get(self.url2)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'users/followers_list.html')
+        self.assertTemplateUsed(response, 'users/profile/followers_list.html')
         self.assertQuerysetEqual(
             response.context['followers_list'],
             ['<Connection: foo2>'], 
@@ -211,7 +211,7 @@ class UserProfileTest(TestCase):
         self.client.login(username='foo1', password='testpassword')
         response = self.client.get(self.url1)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'users/profile.html')
+        self.assertTemplateUsed(response, 'users/profile/profile.html')
         self.assertEqual(response.context['user_data'].username, 'foo1')
         self.assertContains(response, self.user1.username)
         self.assertQuerysetEqual(
@@ -230,7 +230,7 @@ class UserProfileTest(TestCase):
         self.client.login(username='foo1', password='testpassword')
         response = self.client.get(self.url2)
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'users/profile.html')
+        self.assertTemplateUsed(response, 'users/profile/profile.html')
         self.assertEqual(response.context['user_data'].username, 'foo2')
         self.assertContains(response, self.user1.username)
         self.assertQuerysetEqual(
