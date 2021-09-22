@@ -27,10 +27,10 @@ $(function () {
             success: function (response) {
                 selector.children('span').text(response.likes_count);
                 if (response.liked) {
-                    selector.attr('data-url', 'http://127.0.0.1:8000/unlike/num/'.replace(/num/, response.post_pk));
+                    selector.attr('data-url', '/unlike/num/'.replace(/num/, response.post_pk));
                     selector.children('i').attr('class', 'fas fa-thumbs-up')
                 } else {
-                    selector.attr('data-url', 'http://127.0.0.1:8000/like/num/'.replace(/num/, response.post_pk));
+                    selector.attr('data-url', '/like/num/'.replace(/num/, response.post_pk));
                     selector.children('i').attr('class', 'far fa-thumbs-up')
                 }
             }
