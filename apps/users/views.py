@@ -24,7 +24,7 @@ class UserProfileView(LoginRequiredMixin, View):
       post_data = Post.objects.filter(user__username=self.kwargs['username'])
       following_data =  Connection.objects.filter(user=user_data).values_list('followee')
       following_count = User.objects.filter(id__in=following_data).count()
-      followers_data = User.objects.get(username=self.kwargs['username']).follower.all()
+      followers_data = user_data.follower.all()
       followers_count = followers_data.count()
       request_user_following_data = Connection.objects.filter(user=self.request.user).values_list('followee')
       request_user_following_list = User.objects.filter(id__in=request_user_following_data) 
