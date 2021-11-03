@@ -20,24 +20,24 @@ class SignUpView(CreateView):
 class UserProfileView(LoginRequiredMixin, View):
   
     def get(self, request, *args, **kwargs):
-      user_data = get_object_or_404(User, username=self.kwargs['username'])
-      post_data = Post.objects.filter(user__username=self.kwargs['username'])
-      following_data =  Connection.objects.filter(user=user_data).values_list('followee')
-      following_count = User.objects.filter(id__in=following_data).count()
-      followers_data = user_data.follower.all()
-      followers_count = followers_data.count()
-      request_user_following_data = Connection.objects.filter(user=self.request.user).values_list('followee')
-      request_user_following_list = User.objects.filter(id__in=request_user_following_data) 
-      liked_post_pk_list = Like.objects.filter(user=self.request.user).values_list('post', flat=True)
-      context = {
+        user_data = get_object_or_404(User, username=self.kwargs['username'])
+        post_data = Post.objects.filter(user__username=self.kwargs['username'])
+        following_data =  Connection.objects.filter(user=user_data).values_list('followee')
+        following_count = User.objects.filter(id__in=following_data).count()
+        followers_data = user_data.follower.all()
+        followers_count = followers_data.count()
+        request_user_following_data = Connection.objects.filter(user=self.request.user).values_list('followee')
+        request_user_following_list = User.objects.filter(id__in=request_user_following_data) 
+        liked_post_pk_list = Like.objects.filter(user=self.request.user).values_list('post', flat=True)
+        context = {
         'user_data':user_data, 
         'post_data':post_data, 
         'following_count':following_count, 
         'followers_count':followers_count, 
         'request_user_following_list':request_user_following_list,
         'liked_post_pk_list': liked_post_pk_list,
-      }
-      return render(request, 'users/profile/profile.html', context)
+        }
+        return render(request, 'users/profile/profile.html', context)
 
 
 class FollowBase(LoginRequiredMixin, View):
@@ -67,11 +67,11 @@ class FollowingListView(LoginRequiredMixin, ListView):
     template_name = 'users/profile/following_list.html'
 
     def get_context_data(self, *args, **kwargs):
-      context = super().get_context_data(*args, **kwargs)
-      user =  get_object_or_404(User, username=self.kwargs['username'])
-      following = Connection.objects.filter(user=user).values_list('followee')
-      context['following_list'] = User.objects.filter(id__in=following)
-      return context
+        context = super().get_context_data(*args, **kwargs)
+        user =  get_object_or_404(User, username=self.kwargs['username'])
+        following = Connection.objects.filter(user=user).values_list('followee')
+        context['following_list'] = User.objects.filter(id__in=following)
+        return context
 
 
 class FollowersListView(LoginRequiredMixin, ListView):
@@ -79,6 +79,6 @@ class FollowersListView(LoginRequiredMixin, ListView):
     template_name = 'users/profile/followers_list.html'
 
     def get_context_data(self, *args, **kwargs):
-      context = super().get_context_data(*args, **kwargs)
-      context['followers_list'] = get_object_or_404(User, username=self.kwargs['username']).follower.all()
-      return context
+        context = super().get_context_data(*args, **kwargs)
+        context['followers_list'] = get_object_or_404(User, username=self.kwargs['username']).follower.all()
+        return context

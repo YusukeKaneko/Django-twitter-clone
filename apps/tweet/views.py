@@ -36,7 +36,7 @@ class CreateTweetView(LoginRequiredMixin, CreateView):
    template_name = 'tweet/tweet_create.html'
 
    def get_success_url(self):
-        return reverse('apps.users:profile', kwargs={'username': self.request.user.username})
+      return reverse('apps.users:profile', kwargs={'username': self.request.user.username})
    
    def form_valid(self, form):
       form.instance.user = self.request.user
@@ -60,7 +60,7 @@ class DeleteTweetView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
    template_name = 'tweet/tweet_delete.html'
    
    def get_success_url(self):
-        return reverse('apps.users:profile', kwargs={'username': self.request.user.username})
+      return reverse('apps.users:profile', kwargs={'username': self.request.user.username})
 
    def test_func(self, **kwargs):
       pk = self.kwargs['pk']
