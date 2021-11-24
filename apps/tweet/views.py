@@ -26,7 +26,7 @@ class LikeTweetView(LoginRequiredMixin, View):
         liked_post_pk_list = Like.objects.filter(user=self.request.user).values_list('post')
         liked_post_list = Post.objects.filter(id__in=liked_post_pk_list)
         context = {
-	        'liked_post_list': liked_post_list,
+            'liked_post_list': liked_post_list,
         }
         return render(request, 'tweet/tweet_like_list.html', context)
 
