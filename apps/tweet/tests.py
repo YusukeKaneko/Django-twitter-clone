@@ -107,7 +107,7 @@ class LikeTests(TestCase):
         self.tweet = Post.objects.create(title='test', content='test', user=self.user)
         self.url = reverse('apps.users:like', kwargs={'pk':self.tweet.pk})
 
-    def test_tweet_like_in_home(self):
+    def test_tweet_like(self):
         self.client.login(username='foo', password='testpassword')
         post_reaponse = self.client.post(self.url, HTTP_X_REQUESTED_WITH='XMLHttpRequest')      
         self.assertEquals(post_reaponse.status_code, 200)
@@ -124,7 +124,7 @@ class UnikeTests(TestCase):
         self.url1 = reverse('apps.users:like', kwargs={'pk':self.tweet.pk})
         self.url2 = reverse('apps.users:unlike', kwargs={'pk':self.tweet.pk})
 
-    def test_tweet_unlike_in_home(self):
+    def test_tweet_unlike(self):
         self.client.login(username='foo', password='testpassword')
         self.client.post(self.url1, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         post_reaponse = self.client.post(self.url2, HTTP_X_REQUESTED_WITH='XMLHttpRequest')      
